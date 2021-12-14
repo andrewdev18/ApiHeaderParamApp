@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }){
+            //Aplicacion de Headers
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap headers = new HashMap();
