@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtResultado = findViewById(R.id.txtResultApi);
+        txtResultado = findViewById(R.id.txtResult);
         Button btnLoad = findViewById(R.id.btnLoad);
         requestQueue = Volley.newRequestQueue(this);
 
@@ -45,10 +45,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void JSONRequest(){
-        String url = "http://myjson.dit.upm.es/api/bins/dhct";
+        String url = "https://fortnite1.p.rapidapi.com/upcoming/get";
+        String headerA1 = "authorization";
+        String headerA2 = "https://fortnite-api.com/v2/aes";
+        String headerB1 = "x-rapidapi-host";
+        String headerB2 = "fortnite1.p.rapidapi.com";
+        String headerC1 = "x-rapidapi-key";
+        String headerC2 = "72ca31b0a3mshb4e387c76c0e6adp174fb2jsn5463d1c259ad";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 url, null,
@@ -56,12 +60,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("employees");
+                            JSONArray jsonArray = response.getJSONArray("data");
 
                             for(int i = 0; i < jsonArray.length(); i++){
                                 JSONObject object = jsonArray.getJSONObject(i);
-                                String name = object.getString("name");
-
+                                String name = object.getString("itemId");
+                                txtResultado.setText(null);
                                 txtResultado.append("Nombre: " + name + "\n\n");
                             }
                         } catch (JSONException e) {
@@ -73,15 +77,16 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
             }
-        })/*{
+        }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap headers = new HashMap();
-                headers.put("","");
-                headers.put("","");
+                headers.put(headerA1,headerA2);
+                headers.put(headerB1,headerB2);
+                headers.put(headerC1, headerC2);
                 return headers;
             }
-        }*/;
+        };
 
         requestQueue.add(request);
     }
